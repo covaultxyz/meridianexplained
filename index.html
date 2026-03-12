@@ -98,8 +98,8 @@
 <body class="relative selection:bg-indigo-500/30 selection:text-white">
 
     <!-- Ambient Background Elements -->
-    <video id="bg-video" autoplay muted loop playsinline webkit-playsinline
-        style="position:fixed;top:0;left:0;width:100%;height:100%;object-fit:cover;z-index:0;"
+    <video id="bg-video" autoplay muted loop playsinline webkit-playsinline disablepictureinpicture disableremoteplayback
+        style="position:fixed;top:0;left:0;width:100%;height:100%;object-fit:cover;z-index:0;pointer-events:none;"
         preload="auto">
         <source src="https://d1yei2z3i6k35z.cloudfront.net/10816672/69b21beed361e_globenode.mp4" type="video/mp4">
     </video>
@@ -487,24 +487,40 @@
         initParticles();
         animate();
 
-        // Safari + mobile autoplay fix
-        const video = document.getElementById('bg-video');
-        video.muted = true;
-        video.setAttribute('muted', '');
-        video.setAttribute('playsinline', '');
-        const playPromise = video.play();
-        if (playPromise !== undefined) {
-            playPromise.catch(() => {
-                document.addEventListener('touchstart', function handler() {
-                    video.play();
-                    document.removeEventListener('touchstart', handler);
-                }, { once: true });
-                document.addEventListener('click', function handler() {
-                    video.play();
-                    document.removeEventListener('click', handler);
-                }, { once: true });
-            });
-        }
+        // iOS Safari + mobile autoplay fix
+        (function() {
+            var v = document.getElementById('bg-video');
+            v.muted = true;
+            v.defaultMuted = true;
+            v.setAttribute('muted', '');
+            v.setAttribute('playsinline', '');
+            v.playsInline = true;
+            v.controls = false;
+
+            function tryPlay() {
+                var p = v.play();
+                if (p !== undefined) {
+                    p.catch(function() {
+                        // iOS blocked autoplay — retry on first user gesture
+                        ['touchstart','touchend','click','scroll'].forEach(function(evt) {
+                            document.addEventListener(evt, function handler() {
+                                v.play();
+                                document.removeEventListener(evt, handler);
+                            }, { once: true, passive: true });
+                        });
+                    });
+                }
+            }
+
+            // Try immediately
+            tryPlay();
+            // Retry when video data is ready
+            v.addEventListener('loadeddata', tryPlay);
+            // Retry on canplay
+            v.addEventListener('canplay', tryPlay);
+            // Final fallback — retry after page fully loads
+            window.addEventListener('load', tryPlay);
+        })();
     </script>
 </body>
 </html>
