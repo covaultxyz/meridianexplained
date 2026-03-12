@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MERIDIAN | What It Does For You</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@200;400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #030305;
+            --text-main: #ededed;
+            --text-muted: #8a8a93;
+            --accent: #4f46e5;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        h1, h2, h3, h4, .font-outfit {
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .film-grain {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            pointer-events: none;
+            z-index: 50;
+            opacity: 0.04;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        .glow-orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: 0.12;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .glow-1 { top: -10%; left: -10%; width: 50vw; height: 50vw; background: radial-gradient(circle, #4f46e5 0%, transparent 70%); }
+        .glow-2 { bottom: -20%; right: -10%; width: 60vw; height: 60vw; background: radial-gradient(circle, #0ea5e9 0%, transparent 70%); }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .reveal-delay-1 { transition-delay: 0.1s; }
+        .reveal-delay-2 { transition-delay: 0.2s; }
+        .reveal-delay-3 { transition-delay: 0.3s; }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #000; }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #555; }
+
+        .feature-card {
+            border: 1px solid rgba(255,255,255,0.06);
+            background: rgba(255,255,255,0.03);
+            backdrop-filter: blur(12px);
+            transition: all 0.4s ease;
+        }
+        .feature-card:hover {
+            border-color: rgba(79, 70, 229, 0.3);
+            background: rgba(255,255,255,0.05);
+        }
+
+        .bullet-check::before {
+            content: "\2713";
+            color: #4f46e5;
+            font-weight: 700;
+            margin-right: 0.75rem;
+        }
+    </style>
+</head>
+<body class="relative selection:bg-indigo-500/30 selection:text-white">
+
+    <!-- Background Video -->
+    <video id="bg-video" autoplay muted loop playsinline webkit-playsinline
+        style="position:fixed;top:0;left:0;width:100%;height:100%;object-fit:cover;z-index:0;"
+        preload="auto">
+        <source src="https://d1yei2z3i6k35z.cloudfront.net/10816672/69b21beed361e_globenode.mp4" type="video/mp4">
+    </video>
+    <div style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(3,3,5,0.88);z-index:1;pointer-events:none;"></div>
+
+    <div class="film-grain"></div>
+    <div class="glow-orb glow-1"></div>
+    <div class="glow-orb glow-2"></div>
+
+    <!-- Nav -->
+    <nav class="fixed top-0 w-full z-40 px-6 py-6 flex justify-between items-center">
+        <div class="font-outfit font-bold tracking-[0.2em] text-sm uppercase text-white/70">System <span class="text-white">Active</span></div>
+        <div class="w-2 h-2 rounded-full bg-green-500 animate-pulse shadow-[0_0_10px_rgba(34,197,94,0.5)]"></div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="relative z-10 min-h-screen flex flex-col justify-center items-center px-6 overflow-hidden">
+        <div class="text-center max-w-4xl mx-auto">
+            <h1 class="reveal font-outfit text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter uppercase leading-none mb-8">
+                <span class="block text-transparent bg-clip-text bg-gradient-to-b from-white via-gray-200 to-gray-600">MERIDIAN</span>
+            </h1>
+            <p class="reveal reveal-delay-1 text-xl md:text-2xl text-gray-300 font-light leading-relaxed max-w-2xl mx-auto">
+                An AI system that remembers everything, runs itself, and gets smarter every day &mdash; so your team can focus on what actually moves the needle.
+            </p>
+            <div class="reveal reveal-delay-2 mt-16 mx-auto w-[1px] h-20 bg-gradient-to-b from-indigo-500 to-transparent"></div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="relative z-10 pb-20">
+        <div class="max-w-5xl mx-auto px-6">
+
+            <!-- Section: Memory -->
+            <section class="reveal py-16 md:py-24 border-t border-white/5">
+                <div class="mb-6">
+                    <span class="text-indigo-400 text-sm font-outfit font-bold tracking-[0.3em] uppercase">Your AI Never Forgets</span>
+                </div>
+                <h2 class="text-3xl md:text-4xl font-outfit font-semibold text-white mb-6 leading-tight">
+                    Every conversation, decision, and detail &mdash; remembered permanently.
+                </h2>
+                <p class="text-lg text-gray-400 font-light leading-relaxed mb-8 max-w-3xl">
+                    Most AI tools start fresh every time you talk to them. MERIDIAN builds a growing knowledge base from every interaction. Ask it something today, and it still knows the context six months from now.
+                </p>
+                <div class="grid md:grid-cols-3 gap-4">
+                    <div class="feature-card rounded-2xl p-6">
+                        <h4 class="font-outfit text-white font-medium mb-2">7,000+ Memories</h4>
+                        <p class="text-sm text-gray-400">Facts, decisions, and contacts &mdash; all connected and searchable.</p>
+                    </div>
+                    <div class="feature-card rounded-2xl p-6">
+                        <h4 class="font-outfit text-white font-medium mb-2">Auto-Verified</h4>
+                        <p class="text-sm text-gray-400">Information gets fact-checked and confidence-scored automatically.</p>
+                    </div>
+                    <div class="feature-card rounded-2xl p-6">
+                        <h4 class="font-outfit text-white font-medium mb-2">Noise Fades, Signal Stays</h4>
+                        <p class="text-sm text-gray-400">Outdated info naturally loses weight. Critical knowledge stays forever.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section: AI Team -->
+            <section class="reveal py-16 md:py-24 border-t border-white/5">
+                <div class="mb-6">
+                    <span class="text-indigo-400 text-sm font-outfit font-bold tracking-[0.3em] uppercase">A Team, Not a Tool</span>
+                </div>
+                <h2 class="text-3xl md:text-4xl font-outfit font-semibold text-white mb-6 leading-tight">
+                    8+ specialized AI agents working together around the clock.
+                </h2>
+                <p class="text-lg text-gray-400 font-light leading-relaxed mb-8 max-w-3xl">
+                    Not one generic chatbot. MERIDIAN runs a coordinated team of AI specialists &mdash; each with a specific job. One handles quality control. Another handles strategy. Another handles operations. They talk to each other, debate decisions, and keep each other honest.
+                </p>
+                <ul class="space-y-3 text-gray-300 max-w-2xl">
+                    <li class="bullet-check">Coherence checks before anything goes live</li>
+                    <li class="bullet-check">Automatic failover if any agent goes down</li>
+                    <li class="bullet-check">Decisions are debated, not rubber-stamped</li>
+                    <li class="bullet-check">Full audit trail of who decided what and why</li>
+                </ul>
+            </section>
+
+            <!-- Section: Call Intelligence -->
+            <section class="reveal py-16 md:py-24 border-t border-white/5">
+                <div class="mb-6">
+                    <span class="text-indigo-400 text-sm font-outfit font-bold tracking-[0.3em] uppercase">Call Intelligence</span>
+                </div>
+                <h2 class="text-3xl md:text-4xl font-outfit font-semibold text-white mb-6 leading-tight">
+                    Every phone call automatically turned into actionable intelligence.
+                </h2>
+                <p class="text-lg text-gray-400 font-light leading-relaxed mb-8 max-w-3xl">
+                    Record a call. MERIDIAN identifies who spoke, transcribes everything, pulls out the key information, and creates contacts, action items, and deal classifications &mdash; all without you typing a word. No manual CRM entry. No lost follow-ups.
+                </p>
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div class="feature-card rounded-2xl p-6">
+                        <h4 class="font-outfit text-white font-medium mb-2">Speaker Identification</h4>
+                        <p class="text-sm text-gray-400">Knows who said what, even with multiple people on the call.</p>
+                    </div>
+                    <div class="feature-card rounded-2xl p-6">
+                        <h4 class="font-outfit text-white font-medium mb-2">100% On-Device</h4>
+                        <p class="text-sm text-gray-400">Your calls never leave your hardware. Complete privacy.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section: Always On -->
+            <section class="reveal py-16 md:py-24 border-t border-white/5">
+                <div class="mb-6">
+                    <span class="text-indigo-400 text-sm font-outfit font-bold tracking-[0.3em] uppercase">Always On</span>
+                </div>
+                <h2 class="text-3xl md:text-4xl font-outfit font-semibold text-white mb-6 leading-tight">
+                    Runs across 5 machines with zero downtime.
+                </h2>
+                <p class="text-lg text-gray-400 font-light leading-relaxed mb-8 max-w-3xl">
+                    Updates deploy to 3 servers in under 20 minutes without a single second of interruption. 69 automated health checks run continuously &mdash; catching problems before anyone notices. If something breaks, it rolls back instantly.
+                </p>
+                <ul class="space-y-3 text-gray-300 max-w-2xl">
+                    <li class="bullet-check">Zero-downtime updates &mdash; no maintenance windows</li>
+                    <li class="bullet-check">Instant rollback if anything goes wrong</li>
+                    <li class="bullet-check">Self-monitoring across 4 check frequencies</li>
+                    <li class="bullet-check">Problems detected and flagged before you notice them</li>
+                </ul>
+            </section>
+
+            <!-- Section: Nothing Falls Through -->
+            <section class="reveal py-16 md:py-24 border-t border-white/5">
+                <div class="mb-6">
+                    <span class="text-indigo-400 text-sm font-outfit font-bold tracking-[0.3em] uppercase">Nothing Falls Through the Cracks</span>
+                </div>
+                <h2 class="text-3xl md:text-4xl font-outfit font-semibold text-white mb-6 leading-tight">
+                    Every task is tracked, retried, and completed.
+                </h2>
+                <p class="text-lg text-gray-400 font-light leading-relaxed mb-8 max-w-3xl">
+                    Failed tasks don't vanish &mdash; they're automatically retried up to 5 times, then preserved for review. 14+ task types run in parallel: from generating reports to processing calls to building websites. Everything is auditable.
+                </p>
+            </section>
+
+            <!-- Section: Websites -->
+            <section class="reveal py-16 md:py-24 border-t border-white/5">
+                <div class="mb-6">
+                    <span class="text-indigo-400 text-sm font-outfit font-bold tracking-[0.3em] uppercase">Websites on Command</span>
+                </div>
+                <h2 class="text-3xl md:text-4xl font-outfit font-semibold text-white mb-6 leading-tight">
+                    Describe what you want. Get a live website.
+                </h2>
+                <p class="text-lg text-gray-400 font-light leading-relaxed mb-8 max-w-3xl">
+                    Tell MERIDIAN what the site should look like and say. It generates the pages, pushes them live, and hands you the URL. No designer. No developer. No waiting.
+                </p>
+            </section>
+
+            <!-- Section: Research -->
+            <section class="reveal py-16 md:py-24 border-t border-white/5">
+                <div class="mb-6">
+                    <span class="text-indigo-400 text-sm font-outfit font-bold tracking-[0.3em] uppercase">Automated Research</span>
+                </div>
+                <h2 class="text-3xl md:text-4xl font-outfit font-semibold text-white mb-6 leading-tight">
+                    Ingests documents, filters noise, and organizes what matters.
+                </h2>
+                <p class="text-lg text-gray-400 font-light leading-relaxed mb-8 max-w-3xl">
+                    Feed MERIDIAN any document &mdash; PDFs, transcripts, reports. It extracts the useful information, classifies it by topic, and connects it to everything else it already knows. Junk gets filtered out automatically.
+                </p>
+            </section>
+
+            <!-- Section: Security -->
+            <section class="reveal py-16 md:py-24 border-t border-white/5">
+                <div class="mb-6">
+                    <span class="text-indigo-400 text-sm font-outfit font-bold tracking-[0.3em] uppercase">Enterprise-Grade Security</span>
+                </div>
+                <h2 class="text-3xl md:text-4xl font-outfit font-semibold text-white mb-6 leading-tight">
+                    Security isn't bolted on. It's how it's built.
+                </h2>
+                <p class="text-lg text-gray-400 font-light leading-relaxed mb-8 max-w-3xl">
+                    Every database write is validated. Credentials are encrypted. Connections are secured. Automatic circuit breakers shut down misbehaving components before they cause damage. This is structural security, not a checklist.
+                </p>
+            </section>
+
+            <!-- Section: Phone Access -->
+            <section class="reveal py-16 md:py-24 border-t border-white/5">
+                <div class="mb-6">
+                    <span class="text-indigo-400 text-sm font-outfit font-bold tracking-[0.3em] uppercase">Control From Your Phone</span>
+                </div>
+                <h2 class="text-3xl md:text-4xl font-outfit font-semibold text-white mb-6 leading-tight">
+                    Talk to the entire system like you'd text a colleague.
+                </h2>
+                <p class="text-lg text-gray-400 font-light leading-relaxed mb-8 max-w-3xl">
+                    Message any AI specialist directly from your phone. Ask questions, assign tasks, get real-time alerts. The entire system is accessible from a messaging app &mdash; no dashboard required.
+                </p>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- Bottom Line -->
+    <section class="relative z-10 py-24 md:py-32 px-6 border-t border-white/10 bg-black/50 backdrop-blur-xl">
+        <div class="max-w-4xl mx-auto text-center">
+            <h3 class="reveal font-outfit text-sm tracking-[0.4em] uppercase text-indigo-500 font-bold mb-10">The Bottom Line</h3>
+            <p class="reveal reveal-delay-1 text-2xl md:text-4xl text-gray-100 leading-snug font-outfit font-light mb-12">
+                Most AI tools are single-use, forgetful, and fragile.<br><br>
+                <span class="font-medium text-white">MERIDIAN</span> is a self-running AI operation that remembers everything, coordinates a team of specialists, processes calls, generates websites, monitors itself, and gets smarter every single day.
+            </p>
+            <div class="reveal reveal-delay-2 p-8 md:p-10 rounded-3xl bg-white/5 border border-white/10 shadow-2xl backdrop-blur-md inline-block">
+                <p class="text-lg md:text-xl text-gray-300 font-inter font-light">
+                    Think of it as hiring an entire AI department that never sleeps, never forgets, and improves without being asked.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <footer class="relative z-10 border-t border-white/5 py-10 text-center text-sm text-gray-600 font-inter tracking-widest uppercase">
+        &copy; <script>document.write(new Date().getFullYear())</script> MERIDIAN
+    </footer>
+
+    <script>
+        // Scroll Reveal
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                } else {
+                    entry.target.classList.remove('active');
+                }
+            });
+        }, { threshold: 0.15 });
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        // Safari + mobile autoplay fix
+        const video = document.getElementById('bg-video');
+        video.muted = true;
+        video.setAttribute('muted', '');
+        video.setAttribute('playsinline', '');
+        const playPromise = video.play();
+        if (playPromise !== undefined) {
+            playPromise.catch(() => {
+                document.addEventListener('touchstart', function handler() {
+                    video.play();
+                    document.removeEventListener('touchstart', handler);
+                }, { once: true });
+                document.addEventListener('click', function handler() {
+                    video.play();
+                    document.removeEventListener('click', handler);
+                }, { once: true });
+            });
+        }
+    </script>
+</body>
+</html>
