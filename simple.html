@@ -85,6 +85,11 @@
             font-weight: 700;
             margin-right: 0.75rem;
         }
+
+        .bg-number {
+            -webkit-text-stroke: 1px rgba(255, 255, 255, 0.03);
+            color: transparent;
+        }
     </style>
 </head>
 <body class="relative selection:bg-indigo-500/30 selection:text-white">
@@ -124,157 +129,130 @@
     <main class="relative z-10 pb-20">
         <div class="max-w-5xl mx-auto px-6">
 
-            <!-- Section: Memory -->
-            <section class="reveal py-16 md:py-24 border-t border-white/5">
-                <div class="mb-6">
-                    <span class="text-indigo-400 text-sm font-outfit font-bold tracking-[0.3em] uppercase">Your AI Never Forgets</span>
-                </div>
-                <h2 class="text-3xl md:text-4xl font-outfit font-semibold text-white mb-6 leading-tight">
-                    Every conversation, decision, and detail &mdash; remembered permanently.
-                </h2>
-                <p class="text-lg text-gray-400 font-light leading-relaxed mb-8 max-w-3xl">
-                    Most AI tools start fresh every time you talk to them. MERIDIAN builds a growing knowledge base from every interaction. Ask it something today, and it still knows the context six months from now.
-                </p>
-                <div class="grid md:grid-cols-3 gap-4">
-                    <div class="feature-card rounded-2xl p-6">
-                        <h4 class="font-outfit text-white font-medium mb-2">7,000+ Memories</h4>
-                        <p class="text-sm text-gray-400">Facts, decisions, and contacts &mdash; all connected and searchable.</p>
-                    </div>
-                    <div class="feature-card rounded-2xl p-6">
-                        <h4 class="font-outfit text-white font-medium mb-2">Auto-Verified</h4>
-                        <p class="text-sm text-gray-400">Information gets fact-checked and confidence-scored automatically.</p>
-                    </div>
-                    <div class="feature-card rounded-2xl p-6">
-                        <h4 class="font-outfit text-white font-medium mb-2">Noise Fades, Signal Stays</h4>
-                        <p class="text-sm text-gray-400">Outdated info naturally loses weight. Critical knowledge stays forever.</p>
+            <!-- Section 01: Memory -->
+            <section class="reveal relative py-16 md:py-24 border-t border-white/5 group">
+                <div class="absolute -top-8 md:-top-16 left-0 text-[7rem] md:text-[14rem] font-black font-outfit bg-number leading-none select-none pointer-events-none z-0">01</div>
+                <div class="relative z-10">
+                    <div class="mb-6"><span class="text-indigo-400 text-sm font-outfit font-bold tracking-[0.3em] uppercase">Your AI Never Forgets</span></div>
+                    <h2 class="text-3xl md:text-4xl font-outfit font-semibold text-white mb-6 leading-tight">Every conversation, decision, and detail &mdash; remembered permanently.</h2>
+                    <p class="text-lg text-gray-400 font-light leading-relaxed mb-8 max-w-3xl">Most AI tools start fresh every time you talk to them. MERIDIAN builds a growing knowledge base from every interaction. Ask it something today, and it still knows the context six months from now.</p>
+                    <div class="grid md:grid-cols-3 gap-4">
+                        <div class="feature-card rounded-2xl p-6">
+                            <h4 class="font-outfit text-white font-medium mb-2">7,000+ Memories</h4>
+                            <p class="text-sm text-gray-400">Facts, decisions, and contacts &mdash; all connected and searchable.</p>
+                        </div>
+                        <div class="feature-card rounded-2xl p-6">
+                            <h4 class="font-outfit text-white font-medium mb-2">Auto-Verified</h4>
+                            <p class="text-sm text-gray-400">Information gets fact-checked and confidence-scored automatically.</p>
+                        </div>
+                        <div class="feature-card rounded-2xl p-6">
+                            <h4 class="font-outfit text-white font-medium mb-2">Noise Fades, Signal Stays</h4>
+                            <p class="text-sm text-gray-400">Outdated info naturally loses weight. Critical knowledge stays forever.</p>
+                        </div>
                     </div>
                 </div>
             </section>
 
-            <!-- Section: AI Team -->
-            <section class="reveal py-16 md:py-24 border-t border-white/5">
-                <div class="mb-6">
-                    <span class="text-indigo-400 text-sm font-outfit font-bold tracking-[0.3em] uppercase">A Team, Not a Tool</span>
+            <!-- Section 02: AI Team -->
+            <section class="reveal relative py-16 md:py-24 border-t border-white/5 group">
+                <div class="absolute -top-8 md:-top-16 left-0 text-[7rem] md:text-[14rem] font-black font-outfit bg-number leading-none select-none pointer-events-none z-0">02</div>
+                <div class="relative z-10">
+                    <div class="mb-6"><span class="text-indigo-400 text-sm font-outfit font-bold tracking-[0.3em] uppercase">A Team, Not a Tool</span></div>
+                    <h2 class="text-3xl md:text-4xl font-outfit font-semibold text-white mb-6 leading-tight">8+ specialized AI agents working together around the clock.</h2>
+                    <p class="text-lg text-gray-400 font-light leading-relaxed mb-8 max-w-3xl">Not one generic chatbot. MERIDIAN runs a coordinated team of AI specialists &mdash; each with a specific job. One handles quality control. Another handles strategy. Another handles operations. They talk to each other, debate decisions, and keep each other honest.</p>
+                    <ul class="space-y-3 text-gray-300 max-w-2xl">
+                        <li class="bullet-check">Coherence checks before anything goes live</li>
+                        <li class="bullet-check">Automatic failover if any agent goes down</li>
+                        <li class="bullet-check">Decisions are debated, not rubber-stamped</li>
+                        <li class="bullet-check">Full audit trail of who decided what and why</li>
+                    </ul>
                 </div>
-                <h2 class="text-3xl md:text-4xl font-outfit font-semibold text-white mb-6 leading-tight">
-                    8+ specialized AI agents working together around the clock.
-                </h2>
-                <p class="text-lg text-gray-400 font-light leading-relaxed mb-8 max-w-3xl">
-                    Not one generic chatbot. MERIDIAN runs a coordinated team of AI specialists &mdash; each with a specific job. One handles quality control. Another handles strategy. Another handles operations. They talk to each other, debate decisions, and keep each other honest.
-                </p>
-                <ul class="space-y-3 text-gray-300 max-w-2xl">
-                    <li class="bullet-check">Coherence checks before anything goes live</li>
-                    <li class="bullet-check">Automatic failover if any agent goes down</li>
-                    <li class="bullet-check">Decisions are debated, not rubber-stamped</li>
-                    <li class="bullet-check">Full audit trail of who decided what and why</li>
-                </ul>
             </section>
 
-            <!-- Section: Call Intelligence -->
-            <section class="reveal py-16 md:py-24 border-t border-white/5">
-                <div class="mb-6">
-                    <span class="text-indigo-400 text-sm font-outfit font-bold tracking-[0.3em] uppercase">Call Intelligence</span>
-                </div>
-                <h2 class="text-3xl md:text-4xl font-outfit font-semibold text-white mb-6 leading-tight">
-                    Every phone call automatically turned into actionable intelligence.
-                </h2>
-                <p class="text-lg text-gray-400 font-light leading-relaxed mb-8 max-w-3xl">
-                    Record a call. MERIDIAN identifies who spoke, transcribes everything, pulls out the key information, and creates contacts, action items, and deal classifications &mdash; all without you typing a word. No manual CRM entry. No lost follow-ups.
-                </p>
-                <div class="grid md:grid-cols-2 gap-4">
-                    <div class="feature-card rounded-2xl p-6">
-                        <h4 class="font-outfit text-white font-medium mb-2">Speaker Identification</h4>
-                        <p class="text-sm text-gray-400">Knows who said what, even with multiple people on the call.</p>
-                    </div>
-                    <div class="feature-card rounded-2xl p-6">
-                        <h4 class="font-outfit text-white font-medium mb-2">100% On-Device</h4>
-                        <p class="text-sm text-gray-400">Your calls never leave your hardware. Complete privacy.</p>
+            <!-- Section 03: Call Intelligence -->
+            <section class="reveal relative py-16 md:py-24 border-t border-white/5 group">
+                <div class="absolute -top-8 md:-top-16 left-0 text-[7rem] md:text-[14rem] font-black font-outfit bg-number leading-none select-none pointer-events-none z-0">03</div>
+                <div class="relative z-10">
+                    <div class="mb-6"><span class="text-indigo-400 text-sm font-outfit font-bold tracking-[0.3em] uppercase">Call Intelligence</span></div>
+                    <h2 class="text-3xl md:text-4xl font-outfit font-semibold text-white mb-6 leading-tight">Every phone call automatically turned into actionable intelligence.</h2>
+                    <p class="text-lg text-gray-400 font-light leading-relaxed mb-8 max-w-3xl">Record a call. MERIDIAN identifies who spoke, transcribes everything, pulls out the key information, and creates contacts, action items, and deal classifications &mdash; all without you typing a word. No manual CRM entry. No lost follow-ups.</p>
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div class="feature-card rounded-2xl p-6">
+                            <h4 class="font-outfit text-white font-medium mb-2">Speaker Identification</h4>
+                            <p class="text-sm text-gray-400">Knows who said what, even with multiple people on the call.</p>
+                        </div>
+                        <div class="feature-card rounded-2xl p-6">
+                            <h4 class="font-outfit text-white font-medium mb-2">100% On-Device</h4>
+                            <p class="text-sm text-gray-400">Your calls never leave your hardware. Complete privacy.</p>
+                        </div>
                     </div>
                 </div>
             </section>
 
-            <!-- Section: Always On -->
-            <section class="reveal py-16 md:py-24 border-t border-white/5">
-                <div class="mb-6">
-                    <span class="text-indigo-400 text-sm font-outfit font-bold tracking-[0.3em] uppercase">Always On</span>
+            <!-- Section 04: Always On -->
+            <section class="reveal relative py-16 md:py-24 border-t border-white/5 group">
+                <div class="absolute -top-8 md:-top-16 left-0 text-[7rem] md:text-[14rem] font-black font-outfit bg-number leading-none select-none pointer-events-none z-0">04</div>
+                <div class="relative z-10">
+                    <div class="mb-6"><span class="text-indigo-400 text-sm font-outfit font-bold tracking-[0.3em] uppercase">Always On</span></div>
+                    <h2 class="text-3xl md:text-4xl font-outfit font-semibold text-white mb-6 leading-tight">Runs across 5 machines with zero downtime.</h2>
+                    <p class="text-lg text-gray-400 font-light leading-relaxed mb-8 max-w-3xl">Updates deploy to 3 servers in under 20 minutes without a single second of interruption. 69 automated health checks run continuously &mdash; catching problems before anyone notices. If something breaks, it rolls back instantly.</p>
+                    <ul class="space-y-3 text-gray-300 max-w-2xl">
+                        <li class="bullet-check">Zero-downtime updates &mdash; no maintenance windows</li>
+                        <li class="bullet-check">Instant rollback if anything goes wrong</li>
+                        <li class="bullet-check">Self-monitoring across 4 check frequencies</li>
+                        <li class="bullet-check">Problems detected and flagged before you notice them</li>
+                    </ul>
                 </div>
-                <h2 class="text-3xl md:text-4xl font-outfit font-semibold text-white mb-6 leading-tight">
-                    Runs across 5 machines with zero downtime.
-                </h2>
-                <p class="text-lg text-gray-400 font-light leading-relaxed mb-8 max-w-3xl">
-                    Updates deploy to 3 servers in under 20 minutes without a single second of interruption. 69 automated health checks run continuously &mdash; catching problems before anyone notices. If something breaks, it rolls back instantly.
-                </p>
-                <ul class="space-y-3 text-gray-300 max-w-2xl">
-                    <li class="bullet-check">Zero-downtime updates &mdash; no maintenance windows</li>
-                    <li class="bullet-check">Instant rollback if anything goes wrong</li>
-                    <li class="bullet-check">Self-monitoring across 4 check frequencies</li>
-                    <li class="bullet-check">Problems detected and flagged before you notice them</li>
-                </ul>
             </section>
 
-            <!-- Section: Nothing Falls Through -->
-            <section class="reveal py-16 md:py-24 border-t border-white/5">
-                <div class="mb-6">
-                    <span class="text-indigo-400 text-sm font-outfit font-bold tracking-[0.3em] uppercase">Nothing Falls Through the Cracks</span>
+            <!-- Section 05: Nothing Falls Through -->
+            <section class="reveal relative py-16 md:py-24 border-t border-white/5 group">
+                <div class="absolute -top-8 md:-top-16 left-0 text-[7rem] md:text-[14rem] font-black font-outfit bg-number leading-none select-none pointer-events-none z-0">05</div>
+                <div class="relative z-10">
+                    <div class="mb-6"><span class="text-indigo-400 text-sm font-outfit font-bold tracking-[0.3em] uppercase">Nothing Falls Through the Cracks</span></div>
+                    <h2 class="text-3xl md:text-4xl font-outfit font-semibold text-white mb-6 leading-tight">Every task is tracked, retried, and completed.</h2>
+                    <p class="text-lg text-gray-400 font-light leading-relaxed mb-8 max-w-3xl">Failed tasks don't vanish &mdash; they're automatically retried up to 5 times, then preserved for review. 14+ task types run in parallel: from generating reports to processing calls to building websites. Everything is auditable.</p>
                 </div>
-                <h2 class="text-3xl md:text-4xl font-outfit font-semibold text-white mb-6 leading-tight">
-                    Every task is tracked, retried, and completed.
-                </h2>
-                <p class="text-lg text-gray-400 font-light leading-relaxed mb-8 max-w-3xl">
-                    Failed tasks don't vanish &mdash; they're automatically retried up to 5 times, then preserved for review. 14+ task types run in parallel: from generating reports to processing calls to building websites. Everything is auditable.
-                </p>
             </section>
 
-            <!-- Section: Websites -->
-            <section class="reveal py-16 md:py-24 border-t border-white/5">
-                <div class="mb-6">
-                    <span class="text-indigo-400 text-sm font-outfit font-bold tracking-[0.3em] uppercase">Websites on Command</span>
+            <!-- Section 06: Websites -->
+            <section class="reveal relative py-16 md:py-24 border-t border-white/5 group">
+                <div class="absolute -top-8 md:-top-16 left-0 text-[7rem] md:text-[14rem] font-black font-outfit bg-number leading-none select-none pointer-events-none z-0">06</div>
+                <div class="relative z-10">
+                    <div class="mb-6"><span class="text-indigo-400 text-sm font-outfit font-bold tracking-[0.3em] uppercase">Websites on Command</span></div>
+                    <h2 class="text-3xl md:text-4xl font-outfit font-semibold text-white mb-6 leading-tight">Describe what you want. Get a live website.</h2>
+                    <p class="text-lg text-gray-400 font-light leading-relaxed mb-8 max-w-3xl">Tell MERIDIAN what the site should look like and say. It generates the pages, pushes them live, and hands you the URL. No designer. No developer. No waiting.</p>
                 </div>
-                <h2 class="text-3xl md:text-4xl font-outfit font-semibold text-white mb-6 leading-tight">
-                    Describe what you want. Get a live website.
-                </h2>
-                <p class="text-lg text-gray-400 font-light leading-relaxed mb-8 max-w-3xl">
-                    Tell MERIDIAN what the site should look like and say. It generates the pages, pushes them live, and hands you the URL. No designer. No developer. No waiting.
-                </p>
             </section>
 
-            <!-- Section: Research -->
-            <section class="reveal py-16 md:py-24 border-t border-white/5">
-                <div class="mb-6">
-                    <span class="text-indigo-400 text-sm font-outfit font-bold tracking-[0.3em] uppercase">Automated Research</span>
+            <!-- Section 07: Research -->
+            <section class="reveal relative py-16 md:py-24 border-t border-white/5 group">
+                <div class="absolute -top-8 md:-top-16 left-0 text-[7rem] md:text-[14rem] font-black font-outfit bg-number leading-none select-none pointer-events-none z-0">07</div>
+                <div class="relative z-10">
+                    <div class="mb-6"><span class="text-indigo-400 text-sm font-outfit font-bold tracking-[0.3em] uppercase">Automated Research</span></div>
+                    <h2 class="text-3xl md:text-4xl font-outfit font-semibold text-white mb-6 leading-tight">Ingests documents, filters noise, and organizes what matters.</h2>
+                    <p class="text-lg text-gray-400 font-light leading-relaxed mb-8 max-w-3xl">Feed MERIDIAN any document &mdash; PDFs, transcripts, reports. It extracts the useful information, classifies it by topic, and connects it to everything else it already knows. Junk gets filtered out automatically.</p>
                 </div>
-                <h2 class="text-3xl md:text-4xl font-outfit font-semibold text-white mb-6 leading-tight">
-                    Ingests documents, filters noise, and organizes what matters.
-                </h2>
-                <p class="text-lg text-gray-400 font-light leading-relaxed mb-8 max-w-3xl">
-                    Feed MERIDIAN any document &mdash; PDFs, transcripts, reports. It extracts the useful information, classifies it by topic, and connects it to everything else it already knows. Junk gets filtered out automatically.
-                </p>
             </section>
 
-            <!-- Section: Security -->
-            <section class="reveal py-16 md:py-24 border-t border-white/5">
-                <div class="mb-6">
-                    <span class="text-indigo-400 text-sm font-outfit font-bold tracking-[0.3em] uppercase">Enterprise-Grade Security</span>
+            <!-- Section 08: Security -->
+            <section class="reveal relative py-16 md:py-24 border-t border-white/5 group">
+                <div class="absolute -top-8 md:-top-16 left-0 text-[7rem] md:text-[14rem] font-black font-outfit bg-number leading-none select-none pointer-events-none z-0">08</div>
+                <div class="relative z-10">
+                    <div class="mb-6"><span class="text-indigo-400 text-sm font-outfit font-bold tracking-[0.3em] uppercase">Enterprise-Grade Security</span></div>
+                    <h2 class="text-3xl md:text-4xl font-outfit font-semibold text-white mb-6 leading-tight">Security isn't bolted on. It's how it's built.</h2>
+                    <p class="text-lg text-gray-400 font-light leading-relaxed mb-8 max-w-3xl">Every database write is validated. Credentials are encrypted. Connections are secured. Automatic circuit breakers shut down misbehaving components before they cause damage. This is structural security, not a checklist.</p>
                 </div>
-                <h2 class="text-3xl md:text-4xl font-outfit font-semibold text-white mb-6 leading-tight">
-                    Security isn't bolted on. It's how it's built.
-                </h2>
-                <p class="text-lg text-gray-400 font-light leading-relaxed mb-8 max-w-3xl">
-                    Every database write is validated. Credentials are encrypted. Connections are secured. Automatic circuit breakers shut down misbehaving components before they cause damage. This is structural security, not a checklist.
-                </p>
             </section>
 
-            <!-- Section: Phone Access -->
-            <section class="reveal py-16 md:py-24 border-t border-white/5">
-                <div class="mb-6">
-                    <span class="text-indigo-400 text-sm font-outfit font-bold tracking-[0.3em] uppercase">Control From Your Phone</span>
+            <!-- Section 09: Phone Access -->
+            <section class="reveal relative py-16 md:py-24 border-t border-white/5 group">
+                <div class="absolute -top-8 md:-top-16 left-0 text-[7rem] md:text-[14rem] font-black font-outfit bg-number leading-none select-none pointer-events-none z-0">09</div>
+                <div class="relative z-10">
+                    <div class="mb-6"><span class="text-indigo-400 text-sm font-outfit font-bold tracking-[0.3em] uppercase">Control From Your Phone</span></div>
+                    <h2 class="text-3xl md:text-4xl font-outfit font-semibold text-white mb-6 leading-tight">Talk to the entire system like you'd text a colleague.</h2>
+                    <p class="text-lg text-gray-400 font-light leading-relaxed mb-8 max-w-3xl">Message any AI specialist directly from your phone. Ask questions, assign tasks, get real-time alerts. The entire system is accessible from a messaging app &mdash; no dashboard required.</p>
                 </div>
-                <h2 class="text-3xl md:text-4xl font-outfit font-semibold text-white mb-6 leading-tight">
-                    Talk to the entire system like you'd text a colleague.
-                </h2>
-                <p class="text-lg text-gray-400 font-light leading-relaxed mb-8 max-w-3xl">
-                    Message any AI specialist directly from your phone. Ask questions, assign tasks, get real-time alerts. The entire system is accessible from a messaging app &mdash; no dashboard required.
-                </p>
             </section>
 
         </div>
