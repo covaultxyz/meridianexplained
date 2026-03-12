@@ -90,21 +90,64 @@
 
         /* Number Typography */
         .bg-number {
-            -webkit-text-stroke: 1px rgba(255, 255, 255, 0.03);
+            -webkit-text-stroke: 2px rgba(255, 255, 255, 0.08);
             color: transparent;
+            transition: all 1s ease;
+        }
+        .group:hover .bg-number {
+            -webkit-text-stroke: 2px rgba(255, 255, 255, 0.15);
+            color: rgba(255, 255, 255, 0.04);
         }
     </style>
 </head>
 <body class="relative selection:bg-indigo-500/30 selection:text-white">
 
-    <!-- Ambient Background Elements -->
-    <video id="bg-video" autoplay muted loop playsinline webkit-playsinline disablepictureinpicture disableremoteplayback
-        style="position:fixed;top:0;left:0;width:100%;height:100%;object-fit:cover;z-index:0;pointer-events:none;"
-        preload="auto">
-        <source src="globenode.mp4" type="video/mp4">
-    </video>
+    <!-- Background Video (injected via JS for Safari compatibility) -->
+    <div id="video-container" style="position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;overflow:hidden;"></div>
     <!-- Dark overlay for text readability -->
     <div style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(3,3,5,0.85);z-index:1;pointer-events:none;"></div>
+    <script>
+    (function(){
+        var c = document.getElementById('video-container');
+        var v = document.createElement('video');
+        v.id = 'bg-video';
+        v.muted = true;
+        v.defaultMuted = true;
+        v.loop = true;
+        v.playsInline = true;
+        v.setAttribute('muted', '');
+        v.setAttribute('autoplay', '');
+        v.setAttribute('loop', '');
+        v.setAttribute('playsinline', '');
+        v.setAttribute('webkit-playsinline', '');
+        v.setAttribute('disablepictureinpicture', '');
+        v.setAttribute('disableremoteplayback', '');
+        v.setAttribute('preload', 'auto');
+        v.controls = false;
+        v.volume = 0;
+        v.style.cssText = 'width:100%;height:100%;object-fit:cover;pointer-events:none;';
+        v.src = 'globenode.mp4';
+        c.appendChild(v);
+        v.load();
+        function tryPlay() {
+            var p = v.play();
+            if (p !== undefined) {
+                p.catch(function(){});
+            }
+        }
+        v.addEventListener('loadedmetadata', tryPlay);
+        v.addEventListener('canplay', tryPlay);
+        tryPlay();
+        var events = ['touchstart','touchend','click','scroll','pointerdown'];
+        events.forEach(function(evt) {
+            document.addEventListener(evt, function handler() {
+                v.muted = true;
+                v.play().catch(function(){});
+                document.removeEventListener(evt, handler);
+            }, { once: true, passive: true });
+        });
+    })();
+    </script>
     <div class="film-grain"></div>
     <div class="glow-orb glow-1"></div>
     <div class="glow-orb glow-2"></div>
@@ -487,40 +530,7 @@
         initParticles();
         animate();
 
-        // iOS Safari + mobile autoplay fix
-        (function() {
-            var v = document.getElementById('bg-video');
-            v.muted = true;
-            v.defaultMuted = true;
-            v.setAttribute('muted', '');
-            v.setAttribute('playsinline', '');
-            v.playsInline = true;
-            v.controls = false;
-
-            function tryPlay() {
-                var p = v.play();
-                if (p !== undefined) {
-                    p.catch(function() {
-                        // iOS blocked autoplay — retry on first user gesture
-                        ['touchstart','touchend','click','scroll'].forEach(function(evt) {
-                            document.addEventListener(evt, function handler() {
-                                v.play();
-                                document.removeEventListener(evt, handler);
-                            }, { once: true, passive: true });
-                        });
-                    });
-                }
-            }
-
-            // Try immediately
-            tryPlay();
-            // Retry when video data is ready
-            v.addEventListener('loadeddata', tryPlay);
-            // Retry on canplay
-            v.addEventListener('canplay', tryPlay);
-            // Final fallback — retry after page fully loads
-            window.addEventListener('load', tryPlay);
-        })();
+        // Video autoplay handled by inline script at top of body
     </script>
 </body>
 </html>
