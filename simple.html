@@ -87,14 +87,14 @@
         }
 
         .bg-number {
-            -webkit-text-stroke: 1px rgba(255, 255, 255, 0.10);
-            color: transparent;
+            -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.12);
+            -webkit-text-fill-color: var(--bg-color);
             paint-order: stroke fill;
-            transition: all 1s ease;
+            transition: -webkit-text-stroke 1s ease, -webkit-text-fill-color 1s ease;
         }
         .group:hover .bg-number {
-            -webkit-text-stroke: 1px rgba(255, 255, 255, 0.0);
-            color: rgba(255, 255, 255, 0.08);
+            -webkit-text-stroke: 0px transparent;
+            -webkit-text-fill-color: rgba(255, 255, 255, 0.07);
         }
     </style>
 </head>
