@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MERIDIAN | Intelligence Architecture</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Outfit:wght@200;400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #030305;
+            --text-main: #ededed;
+            --text-muted: #8a8a93;
+            --accent: #4f46e5;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        h1, h2, h3, .font-outfit {
+            font-family: 'Outfit', sans-serif;
+        }
+
+        /* Film Grain Overlay */
+        .film-grain {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 50;
+            opacity: 0.04;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        /* Cinematic Gradient Glows */
+        .glow-orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: 0.15;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .glow-1 { top: -10%; left: -10%; width: 50vw; height: 50vw; background: radial-gradient(circle, #4f46e5 0%, transparent 70%); }
+        .glow-2 { bottom: -20%; right: -10%; width: 60vw; height: 60vw; background: radial-gradient(circle, #0ea5e9 0%, transparent 70%); }
+
+        /* Scroll Reveal Utility Classes */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Staggered reveals for inner elements */
+        .reveal-delay-1 { transition-delay: 0.1s; }
+        .reveal-delay-2 { transition-delay: 0.2s; }
+        .reveal-delay-3 { transition-delay: 0.3s; }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #000; }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #555; }
+
+        /* Background Canvas */
+        #mesh-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            opacity: 0.3;
+            pointer-events: none;
+        }
+
+        /* Number Typography */
+        .bg-number {
+            -webkit-text-stroke: 1px rgba(255, 255, 255, 0.03);
+            color: transparent;
+        }
+    </style>
+</head>
+<body class="relative selection:bg-indigo-500/30 selection:text-white">
+
+    <!-- Ambient Background Elements -->
+    <video id="bg-video" autoplay muted loop playsinline
+        style="position:fixed;top:0;left:0;width:100%;height:100%;object-fit:cover;z-index:0;opacity:0.4;">
+        <source src="globenode.mp4" type="video/mp4">
+    </video>
+    <div class="film-grain"></div>
+    <div class="glow-orb glow-1"></div>
+    <div class="glow-orb glow-2"></div>
+    <canvas id="mesh-canvas"></canvas>
+
+    <!-- Navigation / Header (Minimal) -->
+    <nav class="fixed top-0 w-full z-40 px-6 py-6 mix-blend-difference flex justify-between items-center">
+        <div class="font-outfit font-bold tracking-[0.2em] text-sm uppercase text-white/70">System <span class="text-white">Active</span></div>
+        <div class="w-2 h-2 rounded-full bg-green-500 animate-pulse shadow-[0_0_10px_rgba(34,197,94,0.5)]"></div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative z-10 min-h-screen flex flex-col justify-center items-center px-4 overflow-hidden">
+        <div class="text-center max-w-5xl mx-auto">
+            <h1 class="reveal font-outfit text-6xl md:text-8xl lg:text-[10rem] font-black tracking-tighter uppercase leading-none mb-6">
+                <span class="block text-transparent bg-clip-text bg-gradient-to-b from-white via-gray-200 to-gray-600">MERIDIAN</span>
+            </h1>
+            <p class="reveal reveal-delay-1 font-inter text-xl md:text-2xl text-gray-400 font-light tracking-widest uppercase">
+                Architecture That Sets Us Apart
+            </p>
+            <div class="reveal reveal-delay-2 mt-16 mx-auto w-[1px] h-24 bg-gradient-to-b from-indigo-500 to-transparent"></div>
+        </div>
+    </section>
+
+    <!-- Features Container -->
+    <main class="relative z-10 pb-32">
+        
+        <!-- Data Array Mapping -->
+        <div class="max-w-7xl mx-auto px-6">
+            
+            <!-- Item 1 -->
+            <article class="reveal relative py-24 md:py-40 border-t border-white/5 group">
+                <div class="absolute -top-10 md:-top-20 left-0 text-[8rem] md:text-[16rem] font-black font-outfit bg-number leading-none select-none transition-all duration-1000 group-hover:text-white/[0.02]">01</div>
+                <div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-16 items-start">
+                    <div class="lg:col-span-5 lg:sticky lg:top-40">
+                        <h2 class="text-3xl md:text-5xl font-outfit font-medium text-white tracking-tight mb-4">Persistent Memory Graph <span class="text-indigo-500 text-lg align-top relative -top-2">(MIG)</span></h2>
+                    </div>
+                    <div class="lg:col-span-7 lg:mt-2">
+                        <p class="text-lg md:text-xl text-gray-400 leading-relaxed font-light">
+                            Not a chat history — a living knowledge graph. 7,000+ memory nodes, 5,135 concepts with vector embeddings, all connected by 91,000+ typed relationships in Neo4j. Every fact has provenance, confidence scoring, temporal decay, and corroboration tracking. Memories don't just exist — they age, get verified, and earn promotion through a 3-tier gate system. No other AI system treats institutional knowledge as a first-class citizen with its own lifecycle.
+                        </p>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Item 2 -->
+            <article class="reveal relative py-24 md:py-40 border-t border-white/5 group">
+                <div class="absolute -top-10 md:-top-20 left-0 text-[8rem] md:text-[16rem] font-black font-outfit bg-number leading-none select-none transition-all duration-1000 group-hover:text-white/[0.02]">02</div>
+                <div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-16 items-start">
+                    <div class="lg:col-span-5 lg:sticky lg:top-40">
+                        <h2 class="text-3xl md:text-5xl font-outfit font-medium text-white tracking-tight mb-4">Multi-Daemon Mesh Architecture</h2>
+                    </div>
+                    <div class="lg:col-span-7 lg:mt-2">
+                        <p class="text-lg md:text-xl text-gray-400 leading-relaxed font-light">
+                            Not one AI assistant — a coordinated team of 8+ specialized AI daemons, each with a distinct role: <span class="text-gray-200">Sensei</span> (coherence & quality), <span class="text-gray-200">Atlas</span> (strategic intelligence), <span class="text-gray-200">Delphi</span> (infrastructure & oracle), <span class="text-gray-200">Sandman</span> (operations), <span class="text-gray-200">Forge</span> (compute), and more. They communicate via NATS messaging with identity lock, failover in under 30 seconds, and typed broadcast coordination. This is an AI org chart that runs itself.
+                        </p>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Item 3 -->
+            <article class="reveal relative py-24 md:py-40 border-t border-white/5 group">
+                <div class="absolute -top-10 md:-top-20 left-0 text-[8rem] md:text-[16rem] font-black font-outfit bg-number leading-none select-none transition-all duration-1000 group-hover:text-white/[0.02]">03</div>
+                <div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-16 items-start">
+                    <div class="lg:col-span-5 lg:sticky lg:top-40">
+                        <h2 class="text-3xl md:text-5xl font-outfit font-medium text-white tracking-tight mb-4">Oracle Call Intelligence</h2>
+                    </div>
+                    <div class="lg:col-span-7 lg:mt-2">
+                        <p class="text-lg md:text-xl text-gray-400 leading-relaxed font-light">
+                            Voice calls go in. Deal-qualified intelligence comes out. Calls are diarized (who said what), transcribed natively on Apple Silicon via MLX Whisper (no cloud dependency), then run through signal extraction, talk-track analysis, and coaching recommendations. Every call produces Contact nodes, Action Items, and deal-stage classification — automatically written into the knowledge graph. No manual CRM entry. No lost context.
+                        </p>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Item 4 -->
+            <article class="reveal relative py-24 md:py-40 border-t border-white/5 group">
+                <div class="absolute -top-10 md:-top-20 left-0 text-[8rem] md:text-[16rem] font-black font-outfit bg-number leading-none select-none transition-all duration-1000 group-hover:text-white/[0.02]">04</div>
+                <div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-16 items-start">
+                    <div class="lg:col-span-5 lg:sticky lg:top-40">
+                        <h2 class="text-3xl md:text-5xl font-outfit font-medium text-white tracking-tight mb-4">Zero-Downtime Deployment Across 3 Nodes</h2>
+                    </div>
+                    <div class="lg:col-span-7 lg:mt-2">
+                        <p class="text-lg md:text-xl text-gray-400 leading-relaxed font-light">
+                            Blue/green deploys to a 3-server mesh in under 20 minutes. Canary-first rollout with instant rollback — no rebuild required. 169 commits deployed in a single push without a second of downtime. Most AI startups can't deploy reliably to one server. We deploy to three in parallel.
+                        </p>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Item 5 -->
+            <article class="reveal relative py-24 md:py-40 border-t border-white/5 group">
+                <div class="absolute -top-10 md:-top-20 left-0 text-[8rem] md:text-[16rem] font-black font-outfit bg-number leading-none select-none transition-all duration-1000 group-hover:text-white/[0.02]">05</div>
+                <div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-16 items-start">
+                    <div class="lg:col-span-5 lg:sticky lg:top-40">
+                        <h2 class="text-3xl md:text-5xl font-outfit font-medium text-white tracking-tight mb-4">69 Autonomous Sentinel Monitors</h2>
+                    </div>
+                    <div class="lg:col-span-7 lg:mt-2">
+                        <p class="text-lg md:text-xl text-gray-400 leading-relaxed font-light">
+                            A tick-based pulse system runs 69 health checks at 4 cadences (5-minute, hourly, 6-hour, daily) — covering everything from Neo4j drift to NATS connectivity to security posture to prediction market accuracy. Replaces what would normally be 30+ separate monitoring services with a single ultra-lightweight scheduler. Problems are detected before anyone notices them.
+                        </p>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Item 6 -->
+            <article class="reveal relative py-24 md:py-40 border-t border-white/5 group">
+                <div class="absolute -top-10 md:-top-20 left-0 text-[8rem] md:text-[16rem] font-black font-outfit bg-number leading-none select-none transition-all duration-1000 group-hover:text-white/[0.02]">06</div>
+                <div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-16 items-start">
+                    <div class="lg:col-span-5 lg:sticky lg:top-40">
+                        <h2 class="text-3xl md:text-5xl font-outfit font-medium text-white tracking-tight mb-4">Durable Work Queue with Dead Letter Recovery</h2>
+                    </div>
+                    <div class="lg:col-span-7 lg:mt-2">
+                        <p class="text-lg md:text-xl text-gray-400 leading-relaxed font-light">
+                            Every task flows through JetStream-backed queues with 5-retry escalation and 30-day dead letter retention. Failed work doesn't vanish — it's preserved, replayable, and auditable. Supports 14+ task types: embeddings, gardening, corroboration discovery, website generation, fact extraction, call processing, cursor agent dispatch, and more.
+                        </p>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Item 7 -->
+            <article class="reveal relative py-24 md:py-40 border-t border-white/5 group">
+                <div class="absolute -top-10 md:-top-20 left-0 text-[8rem] md:text-[16rem] font-black font-outfit bg-number leading-none select-none transition-all duration-1000 group-hover:text-white/[0.02]">07</div>
+                <div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-16 items-start">
+                    <div class="lg:col-span-5 lg:sticky lg:top-40">
+                        <h2 class="text-3xl md:text-5xl font-outfit font-medium text-white tracking-tight mb-4">Autonomous Website Generation</h2>
+                    </div>
+                    <div class="lg:col-span-7 lg:mt-2">
+                        <p class="text-lg md:text-xl text-gray-400 leading-relaxed font-light">
+                            Describe what you want. MERIDIAN generates the site, pushes to GitHub, deploys to Render, and hands you a live URL. End to end, no human in the loop. Runs on M1 MacBook via background worker.
+                        </p>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Item 8 -->
+            <article class="reveal relative py-24 md:py-40 border-t border-white/5 group">
+                <div class="absolute -top-10 md:-top-20 left-0 text-[8rem] md:text-[16rem] font-black font-outfit bg-number leading-none select-none transition-all duration-1000 group-hover:text-white/[0.02]">08</div>
+                <div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-16 items-start">
+                    <div class="lg:col-span-5 lg:sticky lg:top-40">
+                        <h2 class="text-3xl md:text-5xl font-outfit font-medium text-white tracking-tight mb-4">Multi-Daemon Collaboration & Deliberation</h2>
+                    </div>
+                    <div class="lg:col-span-7 lg:mt-2">
+                        <p class="text-lg md:text-xl text-gray-400 leading-relaxed font-light">
+                            When a decision needs more than one perspective, MERIDIAN spins up a board of AI personas — selects 3-5 relevant daemons, runs them in parallel, synthesizes their responses, and records the transcript. Not prompt chaining. Actual multi-agent deliberation with addressed routing and audit trails.
+                        </p>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Item 9 -->
+            <article class="reveal relative py-24 md:py-40 border-t border-white/5 group">
+                <div class="absolute -top-10 md:-top-20 left-0 text-[8rem] md:text-[16rem] font-black font-outfit bg-number leading-none select-none transition-all duration-1000 group-hover:text-white/[0.02]">09</div>
+                <div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-16 items-start">
+                    <div class="lg:col-span-5 lg:sticky lg:top-40">
+                        <h2 class="text-3xl md:text-5xl font-outfit font-medium text-white tracking-tight mb-4">Meeting Coach with Native Apple Silicon Processing</h2>
+                    </div>
+                    <div class="lg:col-span-7 lg:mt-2">
+                        <p class="text-lg md:text-xl text-gray-400 leading-relaxed font-light">
+                            Live meetings or uploaded recordings &rarr; speaker diarization (diart + pyannote) &rarr; transcription (MLX Whisper, zero cloud cost) &rarr; pattern classification &rarr; per-participant coaching recommendations. Runs entirely on-device. Your call intelligence never leaves your hardware.
+                        </p>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Item 10 -->
+            <article class="reveal relative py-24 md:py-40 border-t border-white/5 group">
+                <div class="absolute -top-10 md:-top-20 left-0 text-[8rem] md:text-[16rem] font-black font-outfit bg-number leading-none select-none transition-all duration-1000 group-hover:text-white/[0.02]">10</div>
+                <div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-16 items-start">
+                    <div class="lg:col-span-5 lg:sticky lg:top-40">
+                        <h2 class="text-3xl md:text-5xl font-outfit font-medium text-white tracking-tight mb-4">Research Pipeline with Domain Intelligence</h2>
+                    </div>
+                    <div class="lg:col-span-7 lg:mt-2">
+                        <p class="text-lg md:text-xl text-gray-400 leading-relaxed font-light">
+                            Automated ingestion from documents &rarr; chunking &rarr; embedding &rarr; domain classification across 6 research domains &rarr; coherence-gated storage. Transform and consume are architecturally separated — the pipeline can't write junk to the graph. Every research artifact goes through the same promotion gates as manually created memories.
+                        </p>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Item 11 -->
+            <article class="reveal relative py-24 md:py-40 border-t border-white/5 group">
+                <div class="absolute -top-10 md:-top-20 left-0 text-[8rem] md:text-[16rem] font-black font-outfit bg-number leading-none select-none transition-all duration-1000 group-hover:text-white/[0.02]">11</div>
+                <div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-16 items-start">
+                    <div class="lg:col-span-5 lg:sticky lg:top-40">
+                        <h2 class="text-3xl md:text-5xl font-outfit font-medium text-white tracking-tight mb-4">Temporal Decay & Evergreen Memory</h2>
+                    </div>
+                    <div class="lg:col-span-7 lg:mt-2">
+                        <p class="text-lg md:text-xl text-gray-400 leading-relaxed font-light">
+                            Memories aren't treated equally forever. Non-critical memories lose influence over time via exponential decay (configurable half-life). Foundational knowledge (importance &ge; 9) is evergreen — exempt from decay entirely. This means the system naturally forgets noise while preserving what matters. No other system applies information theory to its own memory.
+                        </p>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Item 12 -->
+            <article class="reveal relative py-24 md:py-40 border-t border-white/5 group">
+                <div class="absolute -top-10 md:-top-20 left-0 text-[8rem] md:text-[16rem] font-black font-outfit bg-number leading-none select-none transition-all duration-1000 group-hover:text-white/[0.02]">12</div>
+                <div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-16 items-start">
+                    <div class="lg:col-span-5 lg:sticky lg:top-40">
+                        <h2 class="text-3xl md:text-5xl font-outfit font-medium text-white tracking-tight mb-4">Security by Architecture</h2>
+                    </div>
+                    <div class="lg:col-span-7 lg:mt-2">
+                        <p class="text-lg md:text-xl text-gray-400 leading-relaxed font-light">
+                            Write validation gates on every Neo4j mutation. Circuit breakers that auto-open after 5 failures. Identity lock with CAS semantics preventing duplicate daemon claims. Pre-commit hooks scanning for leaked secrets. GPG-encrypted credential store. TLS on all database connections. This isn't bolted-on security — it's structural.
+                        </p>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Item 13 -->
+            <article class="reveal relative py-24 md:py-40 border-t border-white/5 group">
+                <div class="absolute -top-10 md:-top-20 left-0 text-[8rem] md:text-[16rem] font-black font-outfit bg-number leading-none select-none transition-all duration-1000 group-hover:text-white/[0.02]">13</div>
+                <div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-16 items-start">
+                    <div class="lg:col-span-5 lg:sticky lg:top-40">
+                        <h2 class="text-3xl md:text-5xl font-outfit font-medium text-white tracking-tight mb-4">Cursor Agent Parallel Offload</h2>
+                    </div>
+                    <div class="lg:col-span-7 lg:mt-2">
+                        <p class="text-lg md:text-xl text-gray-400 leading-relaxed font-light">
+                            Mechanical tasks get dispatched to parallel cursor agent sessions running on isolated worktrees — 55+ pre-written task prompts with goal, constraints, acceptance criteria, and test commands. The main system focuses on judgment-heavy work. Routine work runs in parallel at machine speed. Human gets a Telegram ping when it's done.
+                        </p>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Item 14 -->
+            <article class="reveal relative py-24 md:py-40 border-t border-white/5 group">
+                <div class="absolute -top-10 md:-top-20 left-0 text-[8rem] md:text-[16rem] font-black font-outfit bg-number leading-none select-none transition-all duration-1000 group-hover:text-white/[0.02]">14</div>
+                <div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-16 items-start">
+                    <div class="lg:col-span-5 lg:sticky lg:top-40">
+                        <h2 class="text-3xl md:text-5xl font-outfit font-medium text-white tracking-tight mb-4">Natural Language Mesh Access via Telegram</h2>
+                    </div>
+                    <div class="lg:col-span-7 lg:mt-2">
+                        <p class="text-lg md:text-xl text-gray-400 leading-relaxed font-light">
+                            Talk to the mesh like you'd text a colleague. @mention specific daemons for their expertise. Multi-daemon group chat with transcript persistence. Alert bridge for real-time notifications. The entire system is accessible from your phone.
+                        </p>
+                    </div>
+                </div>
+            </article>
+
+        </div>
+    </main>
+
+    <!-- Conclusion Section -->
+    <section class="relative z-10 min-h-screen flex items-center justify-center py-32 px-6 border-t border-white/10 bg-black/50 backdrop-blur-xl">
+        <div class="max-w-4xl mx-auto text-center">
+            <h3 class="reveal font-outfit text-sm tracking-[0.4em] uppercase text-indigo-500 font-bold mb-10">The Bottom Line</h3>
+            <p class="reveal reveal-delay-1 text-3xl md:text-5xl text-gray-100 leading-tight font-outfit font-light mb-12">
+                Most AI tools are single-turn, stateless, and disposable. <br><br>
+                <span class="font-medium text-white">MERIDIAN</span> is a persistent, multi-agent, self-monitoring mesh that accumulates institutional knowledge, coordinates specialized daemons, processes voice intelligence, deploys autonomously, and heals itself — running across 5 machines with zero-downtime operations.
+            </p>
+            <div class="reveal reveal-delay-2 p-8 md:p-10 rounded-3xl bg-white/5 border border-white/10 shadow-2xl backdrop-blur-md inline-block">
+                <p class="text-xl md:text-2xl text-gray-300 font-inter font-light">
+                    Nobody else has this stack. The closest comparison would be assembling 15+ separate SaaS products and somehow making them share a brain.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <footer class="relative z-10 border-t border-white/5 py-10 text-center text-sm text-gray-600 font-inter tracking-widest uppercase">
+        &copy; <script>document.write(new Date().getFullYear())</script> MERIDIAN ARCHITECTURE
+    </footer>
+
+    <!-- Interactive Logic -->
+    <script>
+        // 1. Scroll Reveal Animation Logic
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.15 // Trigger when 15% of element is visible
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    // Optional: Unobserve after revealing to animate only once
+                    // observer.unobserve(entry.target); 
+                } else {
+                    // Remove if you want elements to animate out when scrolling up
+                    entry.target.classList.remove('active');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal').forEach((el) => {
+            observer.observe(el);
+        });
+
+        // 2. Cinematic Node Canvas Background
+        const canvas = document.getElementById('mesh-canvas');
+        const ctx = canvas.getContext('2d');
+        
+        let width, height;
+        let particles = [];
+        const config = {
+            particleCount: 80, // Adjust based on performance
+            connectDistance: 150,
+            particleSpeed: 0.2,
+            particleColor: 'rgba(255, 255, 255, 0.15)',
+            lineColor: 'rgba(79, 70, 229, 0.1)' // Indigo tint for lines
+        };
+
+        function resize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.vx = (Math.random() - 0.5) * config.particleSpeed;
+                this.vy = (Math.random() - 0.5) * config.particleSpeed;
+                this.radius = Math.random() * 1.5 + 0.5;
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+
+                // Bounce off edges gently
+                if (this.x < 0 || this.x > width) this.vx *= -1;
+                if (this.y < 0 || this.y > height) this.vy *= -1;
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fillStyle = config.particleColor;
+                ctx.fill();
+            }
+        }
+
+        function initParticles() {
+            particles = [];
+            // Reduce particles on smaller screens
+            const count = window.innerWidth < 768 ? config.particleCount / 2 : config.particleCount;
+            for (let i = 0; i < count; i++) {
+                particles.push(new Particle());
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+
+            for (let i = 0; i < particles.length; i++) {
+                particles[i].update();
+                particles[i].draw();
+
+                // Connect particles
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+
+                    if (distance < config.connectDistance) {
+                        ctx.beginPath();
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        
+                        // Opacity based on distance
+                        const opacity = 1 - (distance / config.connectDistance);
+                        ctx.strokeStyle = `rgba(79, 70, 229, ${opacity * 0.2})`; 
+                        ctx.lineWidth = 0.5;
+                        ctx.stroke();
+                    }
+                }
+            }
+            requestAnimationFrame(animate);
+        }
+
+        // Initialize
+        window.addEventListener('resize', () => {
+            resize();
+            initParticles();
+        });
+        
+        resize();
+        initParticles();
+        animate();
+    </script>
+</body>
+</html>
