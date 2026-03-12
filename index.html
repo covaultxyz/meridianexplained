@@ -90,21 +90,14 @@
 
         /* Number Typography */
         .bg-number {
-            color: rgba(255, 255, 255, 0.06);
-            text-shadow:
-                -1px -1px 0 rgba(255,255,255,0.08),
-                 1px -1px 0 rgba(255,255,255,0.08),
-                -1px  1px 0 rgba(255,255,255,0.08),
-                 1px  1px 0 rgba(255,255,255,0.08);
+            -webkit-text-stroke: 1px rgba(255, 255, 255, 0.10);
+            color: transparent;
+            paint-order: stroke fill;
             transition: all 1s ease;
         }
         .group:hover .bg-number {
-            color: rgba(255, 255, 255, 0.10);
-            text-shadow:
-                -1px -1px 0 rgba(255,255,255,0.15),
-                 1px -1px 0 rgba(255,255,255,0.15),
-                -1px  1px 0 rgba(255,255,255,0.15),
-                 1px  1px 0 rgba(255,255,255,0.15);
+            -webkit-text-stroke: 1px rgba(255, 255, 255, 0.0);
+            color: rgba(255, 255, 255, 0.08);
         }
     </style>
 </head>
