@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MERIDIAN | What You Get</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@200;400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #030305;
+            --text-main: #ededed;
+            --text-muted: #8a8a93;
+            --accent: #4f46e5;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        h1, h2, h3, h4, .font-outfit {
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .film-grain {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            pointer-events: none;
+            z-index: 50;
+            opacity: 0.04;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        .glow-orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: 0.12;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .glow-1 { top: -10%; left: -10%; width: 50vw; height: 50vw; background: radial-gradient(circle, #4f46e5 0%, transparent 70%); }
+        .glow-2 { bottom: -20%; right: -10%; width: 60vw; height: 60vw; background: radial-gradient(circle, #0ea5e9 0%, transparent 70%); }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .reveal-delay-1 { transition-delay: 0.1s; }
+        .reveal-delay-2 { transition-delay: 0.2s; }
+        .reveal-delay-3 { transition-delay: 0.3s; }
+        .reveal-delay-4 { transition-delay: 0.4s; }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #000; }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #555; }
+
+        .tier-card {
+            border: 1px solid rgba(255,255,255,0.06);
+            background: rgba(255,255,255,0.02);
+            backdrop-filter: blur(12px);
+            transition: all 0.4s ease;
+        }
+        .tier-card:hover {
+            border-color: rgba(79, 70, 229, 0.3);
+            background: rgba(255,255,255,0.04);
+        }
+
+        .agent-card {
+            border: 1px solid rgba(255,255,255,0.06);
+            background: rgba(255,255,255,0.03);
+            backdrop-filter: blur(12px);
+            transition: all 0.5s ease;
+        }
+        .agent-card:hover {
+            border-color: rgba(79, 70, 229, 0.25);
+            background: rgba(255,255,255,0.05);
+            transform: translateY(-2px);
+        }
+
+        .capability-item {
+            border-left: 2px solid rgba(79, 70, 229, 0.3);
+            transition: border-color 0.3s ease;
+        }
+        .capability-item:hover {
+            border-left-color: rgba(79, 70, 229, 0.7);
+        }
+
+        .bundle-card {
+            border: 1px solid rgba(255,255,255,0.08);
+            background: rgba(255,255,255,0.02);
+            backdrop-filter: blur(12px);
+            transition: all 0.4s ease;
+        }
+        .bundle-card:hover {
+            border-color: rgba(79, 70, 229, 0.4);
+            background: rgba(255,255,255,0.04);
+        }
+        .bundle-card.featured {
+            border-color: rgba(79, 70, 229, 0.4);
+            background: rgba(79, 70, 229, 0.06);
+        }
+        .bundle-card.featured:hover {
+            border-color: rgba(79, 70, 229, 0.6);
+            background: rgba(79, 70, 229, 0.10);
+        }
+
+        .bullet-check::before {
+            content: "\2713";
+            color: #4f46e5;
+            font-weight: 700;
+            margin-right: 0.75rem;
+        }
+
+        .bullet-dash::before {
+            content: "\2014";
+            color: rgba(255,255,255,0.2);
+            margin-right: 0.75rem;
+        }
+
+        .bg-number {
+            -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.12);
+            -webkit-text-fill-color: var(--bg-color);
+            paint-order: stroke fill;
+            transition: -webkit-text-stroke 1s ease, -webkit-text-fill-color 1s ease;
+        }
+        .group:hover .bg-number {
+            -webkit-text-stroke: 0px transparent;
+            -webkit-text-fill-color: rgba(255, 255, 255, 0.07);
+        }
+    </style>
+</head>
+<body class="relative selection:bg-indigo-500/30 selection:text-white">
+
+    <!-- Background Video (injected via JS for Safari compatibility) -->
+    <div id="video-container" style="position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;overflow:hidden;"></div>
+    <div style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(3,3,5,0.90);z-index:1;pointer-events:none;"></div>
+    <script>
+    (function(){
+        var c = document.getElementById('video-container');
+        var v = document.createElement('video');
+        v.id = 'bg-video';
+        v.muted = true;
+        v.defaultMuted = true;
+        v.loop = true;
+        v.playsInline = true;
+        v.setAttribute('muted', '');
+        v.setAttribute('autoplay', '');
+        v.setAttribute('loop', '');
+        v.setAttribute('playsinline', '');
+        v.setAttribute('webkit-playsinline', '');
+        v.setAttribute('disablepictureinpicture', '');
+        v.setAttribute('disableremoteplayback', '');
+        v.setAttribute('preload', 'auto');
+        v.controls = false;
+        v.volume = 0;
+        v.style.cssText = 'width:100%;height:100%;object-fit:cover;pointer-events:none;';
+        v.src = 'globenode.mp4';
+        c.appendChild(v);
+        v.load();
+        function tryPlay() {
+            var p = v.play();
+            if (p !== undefined) {
+                p.catch(function(){});
+            }
+        }
+        v.addEventListener('loadedmetadata', tryPlay);
+        v.addEventListener('canplay', tryPlay);
+        tryPlay();
+        var events = ['touchstart','touchend','click','scroll','pointerdown'];
+        events.forEach(function(evt) {
+            document.addEventListener(evt, function handler() {
+                v.muted = true;
+                v.play().catch(function(){});
+                document.removeEventListener(evt, handler);
+            }, { once: true, passive: true });
+        });
+    })();
+    </script>
+
+    <div class="film-grain"></div>
+    <div class="glow-orb glow-1"></div>
+    <div class="glow-orb glow-2"></div>
+
+    <!-- Nav -->
+    <nav class="fixed top-0 w-full z-40 px-6 py-6 flex justify-between items-center">
+        <div class="font-outfit font-bold tracking-[0.2em] text-sm uppercase text-white/70">What You <span class="text-white">Get</span></div>
+        <a href="simple.html" class="text-xs text-gray-500 hover:text-white transition-colors font-outfit tracking-widest uppercase">Back to Overview</a>
+    </nav>
+
+    <!-- Hero -->
+    <section class="relative z-10 min-h-[80vh] flex flex-col justify-center items-center px-6 overflow-hidden">
+        <div class="text-center max-w-4xl mx-auto">
+            <h1 class="reveal font-outfit text-4xl md:text-6xl lg:text-7xl font-black tracking-tighter uppercase leading-none mb-8">
+                <span class="block text-transparent bg-clip-text bg-gradient-to-b from-white via-gray-200 to-gray-600">Your Platform,</span>
+                <span class="block text-transparent bg-clip-text bg-gradient-to-b from-white via-gray-200 to-gray-600">Your Way</span>
+            </h1>
+            <p class="reveal reveal-delay-1 text-lg md:text-xl text-gray-400 font-light leading-relaxed max-w-2xl mx-auto">
+                MERIDIAN is modular. Everyone gets the engine. Then you activate the AI agents you actually need. Think of it like a phone plan &mdash; pick your features, scale when you're ready.
+            </p>
+            <div class="reveal reveal-delay-2 mt-16 mx-auto w-[1px] h-20 bg-gradient-to-b from-indigo-500 to-transparent"></div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="relative z-10 pb-20">
+        <div class="max-w-5xl mx-auto px-6">
+
+            <!-- ============================================ -->
+            <!-- TIER 1: BASE PLATFORM -->
+            <!-- ============================================ -->
+            <section class="reveal relative py-28 md:py-44 group">
+                <div class="absolute -top-8 md:-top-16 left-0 text-[7rem] md:text-[14rem] font-black font-outfit bg-number leading-none select-none pointer-events-none z-0">01</div>
+                <div class="relative z-10">
+                    <div class="mb-2"><span class="text-indigo-400/60 text-xs font-outfit font-bold tracking-[0.4em] uppercase">Tier 1</span></div>
+                    <div class="mb-6"><span class="text-indigo-400 text-sm font-outfit font-bold tracking-[0.3em] uppercase">The Foundation</span></div>
+                    <h2 class="text-3xl md:text-4xl font-outfit font-semibold text-white mb-6 leading-tight">Everything runs on this. Your own AI infrastructure.</h2>
+                    <p class="text-lg text-gray-400 font-light leading-relaxed mb-10 max-w-3xl">This is the base platform &mdash; the engine that makes everything else possible. Your own knowledge graph, your own messaging backbone, your own secure network. Your data stays in your instance. You own it.</p>
+
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div class="tier-card rounded-2xl p-6">
+                            <h4 class="font-outfit text-white font-medium mb-2">Knowledge Graph</h4>
+                            <p class="text-sm text-gray-400">Your own persistent memory &mdash; searchable, scored, and connected. Every fact, every decision, every contact.</p>
+                        </div>
+                        <div class="tier-card rounded-2xl p-6">
+                            <h4 class="font-outfit text-white font-medium mb-2">Encrypted Messaging</h4>
+                            <p class="text-sm text-gray-400">Private backbone for all agent communication. Everything moves through encrypted channels.</p>
+                        </div>
+                        <div class="tier-card rounded-2xl p-6">
+                            <h4 class="font-outfit text-white font-medium mb-2">Built-In Redundancy</h4>
+                            <p class="text-sm text-gray-400">Minimum 2 nodes &mdash; one local, one cloud. If one goes down, the other keeps running.</p>
+                        </div>
+                        <div class="tier-card rounded-2xl p-6">
+                            <h4 class="font-outfit text-white font-medium mb-2">Health &amp; Security</h4>
+                            <p class="text-sm text-gray-400">Self-healing services, circuit breakers, rate limiting, dead letter queue, and full audit logging.</p>
+                        </div>
+                    </div>
+
+                    <div class="mt-8 p-5 rounded-xl bg-white/[0.02] border border-white/[0.05]">
+                        <p class="text-sm text-gray-500 font-light"><span class="text-gray-400 font-medium">What's not included:</span> Any AI agent capabilities. The base platform stores, routes, monitors, and secures &mdash; it doesn't think, analyze, or act until you add agent packages below.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ============================================ -->
+            <!-- TIER 2: AGENT PACKAGES -->
+            <!-- ============================================ -->
+            <section class="reveal relative py-28 md:py-44 group">
+                <div class="absolute -top-8 md:-top-16 left-0 text-[7rem] md:text-[14rem] font-black font-outfit bg-number leading-none select-none pointer-events-none z-0">02</div>
+                <div class="relative z-10">
+                    <div class="mb-2"><span class="text-indigo-400/60 text-xs font-outfit font-bold tracking-[0.4em] uppercase">Tier 2</span></div>
+                    <div class="mb-6"><span class="text-indigo-400 text-sm font-outfit font-bold tracking-[0.3em] uppercase">AI Agent Packages</span></div>
+                    <h2 class="text-3xl md:text-4xl font-outfit font-semibold text-white mb-6 leading-tight">Pick the agents you need. Activate them when you're ready.</h2>
+                    <p class="text-lg text-gray-400 font-light leading-relaxed mb-12 max-w-3xl">Each package is a production-ready AI agent that runs on your terminal. Add one or add all &mdash; they work independently or together.</p>
+                </div>
+            </section>
+
+            <!-- Agent: Operations -->
+            <section class="reveal relative py-20 md:py-32 group">
+                <div class="relative z-10">
+                    <div class="agent-card rounded-3xl p-8 md:p-10">
+                        <div class="flex items-start justify-between mb-6">
+                            <div>
+                                <span class="text-indigo-400/60 text-xs font-outfit font-bold tracking-[0.4em] uppercase">Agent Package</span>
+                                <h3 class="text-2xl md:text-3xl font-outfit font-semibold text-white mt-2">Operations Agent</h3>
+                            </div>
+                            <div class="w-10 h-10 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400 font-outfit font-bold text-sm">OPS</div>
+                        </div>
+                        <p class="text-gray-400 font-light leading-relaxed mb-8 max-w-3xl">Your autonomous operations manager. Monitors everything, flags what's stuck, routes work to the right place.</p>
+                        <div class="space-y-3">
+                            <div class="capability-item pl-4 py-2">
+                                <h4 class="text-white text-sm font-medium">System Verification</h4>
+                                <p class="text-gray-500 text-sm">After any change &mdash; did it actually work? Automatic post-deploy audits.</p>
+                            </div>
+                            <div class="capability-item pl-4 py-2">
+                                <h4 class="text-white text-sm font-medium">Queue Health</h4>
+                                <p class="text-gray-500 text-sm">Monitors task queues &mdash; what's processing, what's backed up, what failed.</p>
+                            </div>
+                            <div class="capability-item pl-4 py-2">
+                                <h4 class="text-white text-sm font-medium">Smart Task Routing</h4>
+                                <p class="text-gray-500 text-sm">Incoming work gets sent to the right agent or human based on type and priority.</p>
+                            </div>
+                            <div class="capability-item pl-4 py-2">
+                                <h4 class="text-white text-sm font-medium">Daily Synthesis</h4>
+                                <p class="text-gray-500 text-sm">End-of-day report: what shipped, what's stuck, what needs attention tomorrow.</p>
+                            </div>
+                            <div class="capability-item pl-4 py-2">
+                                <h4 class="text-white text-sm font-medium">Stall Detection</h4>
+                                <p class="text-gray-500 text-sm">Flags tasks that haven't moved &mdash; escalates before you notice.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Agent: Quality -->
+            <section class="reveal relative py-20 md:py-32 group">
+                <div class="relative z-10">
+                    <div class="agent-card rounded-3xl p-8 md:p-10">
+                        <div class="flex items-start justify-between mb-6">
+                            <div>
+                                <span class="text-indigo-400/60 text-xs font-outfit font-bold tracking-[0.4em] uppercase">Agent Package</span>
+                                <h3 class="text-2xl md:text-3xl font-outfit font-semibold text-white mt-2">Quality Agent</h3>
+                            </div>
+                            <div class="w-10 h-10 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400 font-outfit font-bold text-sm">QA</div>
+                        </div>
+                        <p class="text-gray-400 font-light leading-relaxed mb-8 max-w-3xl">Audits everything for accuracy, consistency, and completeness before it ships. Nothing goes out without a quality check.</p>
+                        <div class="space-y-3">
+                            <div class="capability-item pl-4 py-2">
+                                <h4 class="text-white text-sm font-medium">Coherence Auditing</h4>
+                                <p class="text-gray-500 text-sm">Scores documents and plans for internal consistency &mdash; confidence, completeness, dissonance.</p>
+                            </div>
+                            <div class="capability-item pl-4 py-2">
+                                <h4 class="text-white text-sm font-medium">Contradiction Detection</h4>
+                                <p class="text-gray-500 text-sm">"This document says X but that record says Y" &mdash; found automatically.</p>
+                            </div>
+                            <div class="capability-item pl-4 py-2">
+                                <h4 class="text-white text-sm font-medium">Drift Monitoring</h4>
+                                <p class="text-gray-500 text-sm">Tracks whether practices are drifting from established protocols over time.</p>
+                            </div>
+                            <div class="capability-item pl-4 py-2">
+                                <h4 class="text-white text-sm font-medium">Compliance Checking</h4>
+                                <p class="text-gray-500 text-sm">Validates processes against your defined rules and standards. Evidence required before risky actions.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Agent: Intelligence -->
+            <section class="reveal relative py-20 md:py-32 group">
+                <div class="relative z-10">
+                    <div class="agent-card rounded-3xl p-8 md:p-10">
+                        <div class="flex items-start justify-between mb-6">
+                            <div>
+                                <span class="text-indigo-400/60 text-xs font-outfit font-bold tracking-[0.4em] uppercase">Agent Package</span>
+                                <h3 class="text-2xl md:text-3xl font-outfit font-semibold text-white mt-2">Intelligence Agent</h3>
+                            </div>
+                            <div class="w-10 h-10 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400 font-outfit font-bold text-sm">INT</div>
+                        </div>
+                        <p class="text-gray-400 font-light leading-relaxed mb-8 max-w-3xl">Reads everything in your knowledge graph, finds patterns you'd miss, and delivers strategic signal &mdash; not noise.</p>
+                        <div class="space-y-3">
+                            <div class="capability-item pl-4 py-2">
+                                <h4 class="text-white text-sm font-medium">Cross-Domain Synthesis</h4>
+                                <p class="text-gray-500 text-sm">Connects information across different areas &mdash; spots relationships humans wouldn't think to look for.</p>
+                            </div>
+                            <div class="capability-item pl-4 py-2">
+                                <h4 class="text-white text-sm font-medium">Blind Spot Detection</h4>
+                                <p class="text-gray-500 text-sm">Identifies what you don't know that you should know. The questions you haven't asked yet.</p>
+                            </div>
+                            <div class="capability-item pl-4 py-2">
+                                <h4 class="text-white text-sm font-medium">Strategic Briefings</h4>
+                                <p class="text-gray-500 text-sm">Periodic summaries of trends, risks, and opportunities across all your data.</p>
+                            </div>
+                            <div class="capability-item pl-4 py-2">
+                                <h4 class="text-white text-sm font-medium">Knowledge Fitness</h4>
+                                <p class="text-gray-500 text-sm">Scores your knowledge base &mdash; what's solid, what's stale, what's missing.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Agent: Infrastructure -->
+            <section class="reveal relative py-20 md:py-32 group">
+                <div class="relative z-10">
+                    <div class="agent-card rounded-3xl p-8 md:p-10">
+                        <div class="flex items-start justify-between mb-6">
+                            <div>
+                                <span class="text-indigo-400/60 text-xs font-outfit font-bold tracking-[0.4em] uppercase">Agent Package</span>
+                                <h3 class="text-2xl md:text-3xl font-outfit font-semibold text-white mt-2">Infrastructure Agent</h3>
+                            </div>
+                            <div class="w-10 h-10 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400 font-outfit font-bold text-sm">INF</div>
+                        </div>
+                        <p class="text-gray-400 font-light leading-relaxed mb-8 max-w-3xl">Keeps your systems running. Deploys updates, monitors health, responds to incidents, and rolls back when needed.</p>
+                        <div class="space-y-3">
+                            <div class="capability-item pl-4 py-2">
+                                <h4 class="text-white text-sm font-medium">Zero-Downtime Deploys</h4>
+                                <p class="text-gray-500 text-sm">Push updates to all nodes without a second of interruption. Blue/green deployment built in.</p>
+                            </div>
+                            <div class="capability-item pl-4 py-2">
+                                <h4 class="text-white text-sm font-medium">Incident Response</h4>
+                                <p class="text-gray-500 text-sm">Detects failures, initiates response, attempts auto-recovery &mdash; before you know something's wrong.</p>
+                            </div>
+                            <div class="capability-item pl-4 py-2">
+                                <h4 class="text-white text-sm font-medium">Instant Rollback</h4>
+                                <p class="text-gray-500 text-sm">One command to return to the last known good state if a deploy goes wrong.</p>
+                            </div>
+                            <div class="capability-item pl-4 py-2">
+                                <h4 class="text-white text-sm font-medium">Backup Verification</h4>
+                                <p class="text-gray-500 text-sm">Confirms backups are running, complete, and restorable. Not just scheduled &mdash; tested.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Agent: Research -->
+            <section class="reveal relative py-20 md:py-32 group">
+                <div class="relative z-10">
+                    <div class="agent-card rounded-3xl p-8 md:p-10">
+                        <div class="flex items-start justify-between mb-6">
+                            <div>
+                                <span class="text-indigo-400/60 text-xs font-outfit font-bold tracking-[0.4em] uppercase">Agent Package</span>
+                                <h3 class="text-2xl md:text-3xl font-outfit font-semibold text-white mt-2">Research Agent</h3>
+                            </div>
+                            <div class="w-10 h-10 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400 font-outfit font-bold text-sm">RES</div>
+                        </div>
+                        <p class="text-gray-400 font-light leading-relaxed mb-8 max-w-3xl">Goes deep on any topic. Ingests documents, extracts facts, validates claims, and enriches your knowledge graph.</p>
+                        <div class="space-y-3">
+                            <div class="capability-item pl-4 py-2">
+                                <h4 class="text-white text-sm font-medium">Deep Research</h4>
+                                <p class="text-gray-500 text-sm">Send a topic out for comprehensive multi-source research. Comes back structured and scored.</p>
+                            </div>
+                            <div class="capability-item pl-4 py-2">
+                                <h4 class="text-white text-sm font-medium">Fact Extraction</h4>
+                                <p class="text-gray-500 text-sm">Feed it PDFs, articles, transcripts &mdash; it pulls out structured knowledge automatically.</p>
+                            </div>
+                            <div class="capability-item pl-4 py-2">
+                                <h4 class="text-white text-sm font-medium">Corroboration</h4>
+                                <p class="text-gray-500 text-sm">Cross-references new claims against what's already known. Validates or flags conflicts.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Agent: Communication -->
+            <section class="reveal relative py-20 md:py-32 group">
+                <div class="relative z-10">
+                    <div class="agent-card rounded-3xl p-8 md:p-10">
+                        <div class="flex items-start justify-between mb-6">
+                            <div>
+                                <span class="text-indigo-400/60 text-xs font-outfit font-bold tracking-[0.4em] uppercase">Agent Package</span>
+                                <h3 class="text-2xl md:text-3xl font-outfit font-semibold text-white mt-2">Communication Interface</h3>
+                            </div>
+                            <div class="w-10 h-10 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400 font-outfit font-bold text-sm">COM</div>
+                        </div>
+                        <p class="text-gray-400 font-light leading-relaxed mb-8 max-w-3xl">Talk to your entire system from your phone. Ask questions, dispatch tasks, get alerts &mdash; all via text message.</p>
+                        <div class="space-y-3">
+                            <div class="capability-item pl-4 py-2">
+                                <h4 class="text-white text-sm font-medium">Natural Language Queries</h4>
+                                <p class="text-gray-500 text-sm">Ask in plain English. Get answers grounded in your actual data.</p>
+                            </div>
+                            <div class="capability-item pl-4 py-2">
+                                <h4 class="text-white text-sm font-medium">Task Dispatch</h4>
+                                <p class="text-gray-500 text-sm">Send a text to kick off research, run an audit, or generate a report.</p>
+                            </div>
+                            <div class="capability-item pl-4 py-2">
+                                <h4 class="text-white text-sm font-medium">Alerts &amp; Notifications</h4>
+                                <p class="text-gray-500 text-sm">Configurable alerts &mdash; system health, task completion, escalations. You choose what you hear about.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ============================================ -->
+            <!-- TIER 3: KNOWLEDGE SERVICES -->
+            <!-- ============================================ -->
+            <section class="reveal relative py-28 md:py-44 group">
+                <div class="absolute -top-8 md:-top-16 left-0 text-[7rem] md:text-[14rem] font-black font-outfit bg-number leading-none select-none pointer-events-none z-0">03</div>
+                <div class="relative z-10">
+                    <div class="mb-2"><span class="text-indigo-400/60 text-xs font-outfit font-bold tracking-[0.4em] uppercase">Tier 3</span></div>
+                    <div class="mb-6"><span class="text-indigo-400 text-sm font-outfit font-bold tracking-[0.3em] uppercase">Knowledge Services</span></div>
+                    <h2 class="text-3xl md:text-4xl font-outfit font-semibold text-white mb-6 leading-tight">Tap into intelligence that doesn't exist in your instance yet.</h2>
+                    <p class="text-lg text-gray-400 font-light leading-relaxed mb-10 max-w-3xl">Your terminal queries MERIDIAN's core knowledge graph for expertise built across thousands of real operations. Your questions go out. Answers come back. Your data never leaves your instance.</p>
+
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div class="tier-card rounded-2xl p-6">
+                            <h4 class="font-outfit text-white font-medium mb-2">Architecture Review</h4>
+                            <p class="text-sm text-gray-400">"Does this system design have single points of failure?" &mdash; answered from real deployment experience.</p>
+                        </div>
+                        <div class="tier-card rounded-2xl p-6">
+                            <h4 class="font-outfit text-white font-medium mb-2">Security Intelligence</h4>
+                            <p class="text-sm text-gray-400">Threat landscape, hardening guidance, and compliance patterns from production environments.</p>
+                        </div>
+                        <div class="tier-card rounded-2xl p-6">
+                            <h4 class="font-outfit text-white font-medium mb-2">Technical Research</h4>
+                            <p class="text-sm text-gray-400">Hardware recommendations, model selection, integration patterns &mdash; grounded in tested configurations.</p>
+                        </div>
+                        <div class="tier-card rounded-2xl p-6">
+                            <h4 class="font-outfit text-white font-medium mb-2">Best Practices</h4>
+                            <p class="text-sm text-gray-400">Operational patterns that actually worked across hundreds of real deployments.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ============================================ -->
+            <!-- TIER 4: CUSTOM DEVELOPMENT -->
+            <!-- ============================================ -->
+            <section class="reveal relative py-28 md:py-44 group">
+                <div class="absolute -top-8 md:-top-16 left-0 text-[7rem] md:text-[14rem] font-black font-outfit bg-number leading-none select-none pointer-events-none z-0">04</div>
+                <div class="relative z-10">
+                    <div class="mb-2"><span class="text-indigo-400/60 text-xs font-outfit font-bold tracking-[0.4em] uppercase">Tier 4</span></div>
+                    <div class="mb-6"><span class="text-indigo-400 text-sm font-outfit font-bold tracking-[0.3em] uppercase">Custom Development</span></div>
+                    <h2 class="text-3xl md:text-4xl font-outfit font-semibold text-white mb-6 leading-tight">Need something that doesn't exist yet? We build it.</h2>
+                    <p class="text-lg text-gray-400 font-light leading-relaxed mb-10 max-w-3xl">Anything not covered by pre-built packages. Custom AI agents, integrations, and workflows built specifically for your operation. You own everything we build.</p>
+
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div class="tier-card rounded-2xl p-6">
+                            <h4 class="font-outfit text-white font-medium mb-2">AI Scribe</h4>
+                            <p class="text-sm text-gray-400">Ambient recording, transcription, and note generation &mdash; all on your hardware.</p>
+                        </div>
+                        <div class="tier-card rounded-2xl p-6">
+                            <h4 class="font-outfit text-white font-medium mb-2">EHR Integration</h4>
+                            <p class="text-sm text-gray-400">Bidirectional sync with DrChrono, Epic, Cerner &mdash; your data flows where it needs to.</p>
+                        </div>
+                        <div class="tier-card rounded-2xl p-6">
+                            <h4 class="font-outfit text-white font-medium mb-2">Custom Agents</h4>
+                            <p class="text-sm text-gray-400">Domain-specific AI with specialized behavior, trained on your data and workflows.</p>
+                        </div>
+                        <div class="tier-card rounded-2xl p-6">
+                            <h4 class="font-outfit text-white font-medium mb-2">Custom Integrations</h4>
+                            <p class="text-sm text-gray-400">Connect to any external API, service, or data source your business depends on.</p>
+                        </div>
+                    </div>
+
+                    <div class="mt-8 p-5 rounded-xl bg-white/[0.02] border border-white/[0.05]">
+                        <p class="text-sm text-gray-500 font-light"><span class="text-gray-400 font-medium">IP Ownership:</span> All custom work built for you is owned by you. We retain no rights to your application layer.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ============================================ -->
+            <!-- BUNDLES -->
+            <!-- ============================================ -->
+            <section class="reveal relative py-28 md:py-44 group">
+                <div class="absolute -top-8 md:-top-16 left-0 text-[7rem] md:text-[14rem] font-black font-outfit bg-number leading-none select-none pointer-events-none z-0">05</div>
+                <div class="relative z-10">
+                    <div class="mb-6"><span class="text-indigo-400 text-sm font-outfit font-bold tracking-[0.3em] uppercase">Pre-Configured Bundles</span></div>
+                    <h2 class="text-3xl md:text-4xl font-outfit font-semibold text-white mb-6 leading-tight">Not sure where to start? Pick a bundle.</h2>
+                    <p class="text-lg text-gray-400 font-light leading-relaxed mb-12 max-w-3xl">Common configurations bundled at a discount. Start with what fits, add more when you're ready.</p>
+
+                    <div class="grid md:grid-cols-3 gap-6">
+                        <!-- Starter -->
+                        <div class="bundle-card rounded-2xl p-8">
+                            <h3 class="font-outfit text-white font-semibold text-xl mb-2">Starter</h3>
+                            <p class="text-sm text-gray-500 mb-6">Solo operators or small teams getting started.</p>
+                            <ul class="space-y-3 text-sm">
+                                <li class="bullet-check text-gray-300">Base Platform</li>
+                                <li class="bullet-check text-gray-300">Infrastructure Agent</li>
+                                <li class="bullet-check text-gray-300">Communication Interface</li>
+                                <li class="bullet-dash text-gray-600">Operations Agent</li>
+                                <li class="bullet-dash text-gray-600">Quality Agent</li>
+                                <li class="bullet-dash text-gray-600">Intelligence Agent</li>
+                                <li class="bullet-dash text-gray-600">Research Agent</li>
+                                <li class="bullet-dash text-gray-600">Knowledge Services</li>
+                            </ul>
+                        </div>
+
+                        <!-- Professional -->
+                        <div class="bundle-card featured rounded-2xl p-8">
+                            <div class="flex items-center justify-between mb-2">
+                                <h3 class="font-outfit text-white font-semibold text-xl">Professional</h3>
+                                <span class="text-[10px] font-outfit font-bold tracking-[0.2em] uppercase text-indigo-400 bg-indigo-500/10 px-2 py-1 rounded-full">Popular</span>
+                            </div>
+                            <p class="text-sm text-gray-500 mb-6">Organizations needing ops intelligence and quality control.</p>
+                            <ul class="space-y-3 text-sm">
+                                <li class="bullet-check text-gray-300">Base Platform</li>
+                                <li class="bullet-check text-gray-300">Infrastructure Agent</li>
+                                <li class="bullet-check text-gray-300">Communication Interface</li>
+                                <li class="bullet-check text-gray-300">Operations Agent</li>
+                                <li class="bullet-check text-gray-300">Quality Agent</li>
+                                <li class="bullet-dash text-gray-600">Intelligence Agent</li>
+                                <li class="bullet-dash text-gray-600">Research Agent</li>
+                                <li class="bullet-dash text-gray-600">Knowledge Services</li>
+                            </ul>
+                        </div>
+
+                        <!-- Enterprise -->
+                        <div class="bundle-card rounded-2xl p-8">
+                            <h3 class="font-outfit text-white font-semibold text-xl mb-2">Enterprise</h3>
+                            <p class="text-sm text-gray-500 mb-6">Multi-site operations that need the full stack.</p>
+                            <ul class="space-y-3 text-sm">
+                                <li class="bullet-check text-gray-300">Base Platform</li>
+                                <li class="bullet-check text-gray-300">Infrastructure Agent</li>
+                                <li class="bullet-check text-gray-300">Communication Interface</li>
+                                <li class="bullet-check text-gray-300">Operations Agent</li>
+                                <li class="bullet-check text-gray-300">Quality Agent</li>
+                                <li class="bullet-check text-gray-300">Intelligence Agent</li>
+                                <li class="bullet-check text-gray-300">Research Agent</li>
+                                <li class="bullet-check text-gray-300">Knowledge Services</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ============================================ -->
+            <!-- DATA OWNERSHIP -->
+            <!-- ============================================ -->
+            <section class="reveal relative py-28 md:py-44 group">
+                <div class="absolute -top-8 md:-top-16 left-0 text-[7rem] md:text-[14rem] font-black font-outfit bg-number leading-none select-none pointer-events-none z-0">06</div>
+                <div class="relative z-10">
+                    <div class="mb-6"><span class="text-indigo-400 text-sm font-outfit font-bold tracking-[0.3em] uppercase">Your Data, Your Terms</span></div>
+                    <h2 class="text-3xl md:text-4xl font-outfit font-semibold text-white mb-6 leading-tight">No lock-in. No data hostage. Everything is yours.</h2>
+                    <p class="text-lg text-gray-400 font-light leading-relaxed mb-8 max-w-3xl">Every client runs their own instance. Your data stays in your knowledge graph. Custom work we build is your IP. You can downgrade, remove packages, or leave entirely &mdash; and take everything with you.</p>
+                    <ul class="space-y-3 text-gray-300 max-w-2xl">
+                        <li class="bullet-check">Your instance, your data &mdash; isolated from every other client</li>
+                        <li class="bullet-check">Custom development IP is 100% yours</li>
+                        <li class="bullet-check">Scale up or down anytime &mdash; no long-term contracts required</li>
+                        <li class="bullet-check">Full data export if you ever want to leave</li>
+                    </ul>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- CTA -->
+    <section class="relative z-10 py-24 md:py-32 px-6 bg-black/50 backdrop-blur-xl">
+        <div class="max-w-4xl mx-auto text-center">
+            <h3 class="reveal font-outfit text-sm tracking-[0.4em] uppercase text-indigo-500 font-bold mb-10">Ready?</h3>
+            <p class="reveal reveal-delay-1 text-2xl md:text-4xl text-gray-100 leading-snug font-outfit font-light mb-12">
+                Start with the foundation.<br>Add agents as you need them.<br><span class="font-medium text-white">Scale when you're ready.</span>
+            </p>
+            <div class="reveal reveal-delay-2 flex flex-col sm:flex-row items-center justify-center gap-4">
+                <a href="simple.html" class="px-8 py-4 rounded-xl bg-white/5 border border-white/10 text-white font-outfit font-medium tracking-wide hover:bg-white/10 transition-all">See What MERIDIAN Does</a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="relative z-10 border-t border-white/5 py-10 text-center text-sm text-gray-600 font-inter tracking-widest uppercase">
+        &copy; <script>document.write(new Date().getFullYear())</script> MERIDIAN
+    </footer>
+
+    <script>
+        // Scroll Reveal
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                } else {
+                    entry.target.classList.remove('active');
+                }
+            });
+        }, { threshold: 0.15 });
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    </script>
+</body>
+</html>
